@@ -1,0 +1,52 @@
+"use client"
+import { useAnalysis } from "@/lib/analysis-context"
+import { CalendarClock } from "lucide-react"
+import { Card } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
+
+const dates = [
+  { label: "Application window opens", date: "01 Apr 2026", status: "Open", tone: "open" },
+  { label: "Document verification", date: "20 May 2026", status: "Upcoming", tone: "upcoming" },
+  { label: "Final submission deadline", date: "30 Jun 2026", status: "Critical", tone: "critical" },
+  { label: "Subsidy disbursement", date: "15 Aug 2026", status: "Tentative", tone: "tentative" },
+]
+
+const toneStyles: Record<string, string> = {
+  open: "bg-accent text-accent-foreground",
+  upcoming: "bg-secondary text-secondary-foreground",
+  critical: "bg-destructive/20 text-destructive",
+  tentative: "bg-muted text-muted-foreground",
+}
+
+export function ImportantDates() {
+  const { analysis } = useAnalysis()
+  return (
+    <Card className="glass flex h-full flex-col border-0 p-6">
+      <div className="mb-4 flex items-center gap-3">
+        <div className="flex size-9 items-center justify-center rounded-xl bg-accent text-primary">
+          <CalendarClock className="size-4.5" aria-hidden="true" />
+        </div>
+        <h2 className="font-heading text-lg font-semibold tracking-tight">Important Dates</h2>
+      </div>
+
+      <ol className="relative flex-1 space-y-5 pl-5">
+        <span className="absolute left-[3px] top-1 h-[calc(100%-1rem)] w-px bg-border" aria-hidden="true" />
+        {(analysis?.importantDates || dates).map((item) => (
+          <li key={item.label} className="relative">
+            <span
+              className="absolute -left-5 top-1.5 size-2 rounded-full bg-primary ring-4 ring-primary/15"
+              aria-hidden="true"
+            />
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-sm font-medium">{item.label}</p>
+              <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-medium", toneStyles[item.tone])}>
+                {item.status}
+              </span>
+            </div>
+            <p className="mt-0.5 text-sm text-muted-foreground">{item.date}</p>
+          </li>
+        ))}
+      </ol>
+    </Card>
+  )
+}
