@@ -3,12 +3,16 @@ import { Sparkles, FileText } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useAnalysis } from "@/lib/analysis-context"
+import { useLanguage } from "@/lib/language-context"
+import { translations } from "@/lib/translations"
 import { jsPDF } from "jspdf"
 
 
 
 export function SummaryCard() {
   const { analysis } = useAnalysis()
+  const { language } = useLanguage()
+  const t = translations[language]
   const downloadPdf = () => {
     if (!analysis) return
   
@@ -86,7 +90,9 @@ export function SummaryCard() {
           <Sparkles className="size-4.5" aria-hidden="true" />
         </div>
         <div>
-          <h2 className="font-heading text-lg font-semibold tracking-tight">AI Summary</h2>
+        <h2 className="font-heading text-lg font-semibold tracking-tight">
+        {t.summary}
+        </h2>
           <p className="text-xs text-muted-foreground">Generated in plain language</p>
         </div>
         <Badge variant="secondary" className="ml-auto gap-1.5">
@@ -99,9 +105,11 @@ export function SummaryCard() {
       <h3 className="mb-2 text-lg font-semibold">
       {analysis?.documentName}
       </h3>
-  <p className="text-pretty text-sm leading-relaxed text-muted-foreground">
-    {analysis?.summary || "Upload a document to see AI summary"}
-  </p>
+      <p className="text-pretty text-sm leading-relaxed text-muted-foreground">
+  {language === "hi"
+    ? analysis?.summaryHindi || analysis?.summary
+    : analysis?.summary || "Upload a document to see AI summary"}
+</p>
 
   {analysis && (
     <button

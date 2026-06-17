@@ -1,4 +1,5 @@
 import { AnalysisProvider } from "@/lib/analysis-context"
+import { LanguageProvider } from "@/lib/language-context"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
@@ -47,11 +48,13 @@ export default function RootLayout({
   className={`${geistSans.variable} ${geistMono.variable} bg-background`}
 >
       <body className="font-sans antialiased">
-        <ThemeProvider>
-          <AnalysisProvider>
-            {children}
-          </AnalysisProvider>
-        </ThemeProvider>
+      <ThemeProvider>
+      <LanguageProvider>
+      <AnalysisProvider>
+      {children}
+      </AnalysisProvider>
+      </LanguageProvider>
+      </ThemeProvider>
 
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>

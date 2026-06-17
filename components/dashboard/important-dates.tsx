@@ -1,5 +1,7 @@
 "use client"
 import { useAnalysis } from "@/lib/analysis-context"
+import { useLanguage } from "@/lib/language-context"
+import { translations } from "@/lib/translations"
 import { CalendarClock } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
@@ -19,6 +21,8 @@ const toneStyles: Record<string, string> = {
 }
 
 export function ImportantDates() {
+  const { language } = useLanguage()
+  const t = translations[language]
   const { analysis } = useAnalysis()
   return (
     <Card className="glass flex h-full flex-col border-0 p-6">
@@ -26,7 +30,9 @@ export function ImportantDates() {
         <div className="flex size-9 items-center justify-center rounded-xl bg-accent text-primary">
           <CalendarClock className="size-4.5" aria-hidden="true" />
         </div>
-        <h2 className="font-heading text-lg font-semibold tracking-tight">Important Dates</h2>
+        <h2 className="font-heading text-lg font-semibold tracking-tight">
+        {t.dates}
+        </h2>
       </div>
 
       <ol className="relative flex-1 space-y-5 pl-5">

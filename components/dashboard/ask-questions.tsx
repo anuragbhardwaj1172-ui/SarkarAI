@@ -1,5 +1,7 @@
 "use client"
 import { useAnalysis } from "@/lib/analysis-context"
+import { useLanguage } from "@/lib/language-context"
+import { translations } from "@/lib/translations"
 import { useState } from "react"
 import { MessageSquareText, SendHorizonal, Sparkles } from "lucide-react"
 import { Card } from "@/components/ui/card"
@@ -27,6 +29,8 @@ export function AskQuestions() {
   const [input, setInput] = useState("")
   const [loading, setLoading] = useState(false)
   const { documentText, analysis } = useAnalysis()
+  const { language } = useLanguage()
+  const t = translations[language]
   async function send(text: string) {
     const trimmed = text.trim()
     
@@ -85,7 +89,9 @@ export function AskQuestions() {
           <MessageSquareText className="size-4.5" aria-hidden="true" />
         </div>
         <div>
-          <h2 className="font-heading text-lg font-semibold tracking-tight">Ask Questions</h2>
+        <h2 className="font-heading text-lg font-semibold tracking-tight">
+        {t.ask}
+        </h2>
           <p className="text-xs text-muted-foreground">Chat with your document</p>
         </div>
       </div>

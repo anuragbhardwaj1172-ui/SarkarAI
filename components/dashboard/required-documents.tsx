@@ -1,5 +1,7 @@
 "use client"
 import { useAnalysis } from "@/lib/analysis-context"
+import { useLanguage } from "@/lib/language-context"
+import { translations } from "@/lib/translations"
 import { FolderCheck, CheckCircle2, Circle } from "lucide-react"
 import { Card } from "@/components/ui/card"
 
@@ -13,6 +15,8 @@ const documents = [
 
 export function RequiredDocuments() {
   const { analysis } = useAnalysis()
+  const { language } = useLanguage()
+  const t = translations[language]
   console.log(analysis)
   const currentDocs = analysis?.requiredDocuments || documents
 
@@ -25,7 +29,9 @@ export function RequiredDocuments() {
           <FolderCheck className="size-4.5" aria-hidden="true" />
         </div>
         <div>
-          <h2 className="font-heading text-lg font-semibold tracking-tight">Required Documents</h2>
+        <h2 className="font-heading text-lg font-semibold tracking-tight">
+        {t.documents}
+        </h2>
           <p className="text-xs text-muted-foreground">
            {currentDocs.length} documents required
           </p>

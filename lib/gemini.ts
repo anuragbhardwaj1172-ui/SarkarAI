@@ -23,6 +23,7 @@ export interface EligibilityCriterion {
 export interface GovernmentDocumentAnalysis {
   documentName: string
   summary: string
+  summaryHindi?: string
   importantDates: ImportantDate[]
   requiredDocuments: RequiredDocument[]
   eligibility: EligibilityCriterion[]
@@ -39,6 +40,10 @@ const responseSchema = {
     summary: {
       type: Type.STRING,
       description: "Plain-language summary of the document in 2-4 sentences.",
+    },
+    summaryHindi: {
+      type: Type.STRING,
+      description: "Hindi translation of the summary.",
     },
     importantDates: {
       type: Type.ARRAY,
@@ -87,6 +92,7 @@ const responseSchema = {
   required: [
     "documentName",
     "summary",
+    "summaryHindi",
     "importantDates",
     "requiredDocuments",
     "eligibility",
@@ -110,7 +116,9 @@ Use clear, concise language. Infer documentName from the content when not explic
 For requiredDocuments, set ready to false unless the document text confirms the item is already submitted.
 For eligibility, extract the eligibility requirements from the document.
 Set met to true because these are requirements, not applicant-specific checks.
-For nextActions, provide ordered, actionable steps the reader should take.`
+For nextActions, provide ordered, actionable steps the reader should take.
+
+Also generate summaryHindi, which is a natural Hindi translation of the summary.`
 
 export async function analyzeGovernmentDocument(
   text: string,
@@ -146,6 +154,7 @@ const parsed = JSON.parse(raw) as GovernmentDocumentAnalysis
   return {
     documentName: parsed.documentName ?? "Untitled document",
     summary: parsed.summary ?? "",
+    summaryHindi: parsed.summaryHindi ?? "",
     importantDates: parsed.importantDates ?? [],
     requiredDocuments: parsed.requiredDocuments ?? [],
     eligibility: parsed.eligibility ?? [],

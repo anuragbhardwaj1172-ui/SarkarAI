@@ -94,8 +94,9 @@ export function UploadSection() {
 console.log("ANALYSIS:", analysis)
 if (analysis.error) {
   console.error("ANALYZE ERROR:", analysis.error)
-  reset()
-  alert("Gemini API limit reached. Try again later or use a new API key.")
+
+  alert(analysis.error)
+
   return
 }
 setAnalysis(analysis)

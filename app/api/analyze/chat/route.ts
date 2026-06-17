@@ -16,18 +16,30 @@ export async function POST(request: Request) {
 
     let response
     if (
-      question.toLowerCase().includes("eligible") &&
+      (
+        question.toLowerCase().includes("eligible") ||
+        question.includes("पात्र")
+      ) &&
       analysis?.eligibility?.length
-    ) {
+    ){
       const allMet = analysis.eligibility.every(
         (item: any) => item.met
       )
     
-      return NextResponse.json({
-        answer: allMet
-          ? "Based on the analyzed criteria, you appear eligible for this scheme."
-          : "Based on the analyzed criteria, you may not be fully eligible for this scheme.",
-      })
+      const isHindi =
+  question.includes("पात्र") ||
+  question.includes("योजना") ||
+  question.includes("क्या")
+
+return NextResponse.json({
+  answer: isHindi
+    ? allMet
+      ? "विश्लेषित मानदंडों के आधार पर, आप इस योजना के लिए पात्र प्रतीत होते हैं।"
+      : "विश्लेषित मानदंडों के आधार पर, आप इस योजना के लिए पूरी तरह पात्र नहीं हो सकते हैं।"
+    : allMet
+    ? "Based on the analyzed criteria, you appear eligible for this scheme."
+    : "Based on the analyzed criteria, you may not be fully eligible for this scheme.",
+})
     }
     try {
       response = await ai.models.generateContent({
@@ -44,11 +56,14 @@ ${question}
 
 Use both the document and the analysis.
 
+If the question is in Hindi, answer in Hindi.
+
+If the question is in English, answer in English.
+
 If the user asks about eligibility,
 use the eligibility analysis to answer.
 
-If information is unavailable, reply:
-"Information not found in the uploaded document."
+If information is unavailable, reply in the same language as the question.
 `,
       })
     } catch (error) {

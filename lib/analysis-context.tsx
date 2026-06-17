@@ -5,6 +5,7 @@ import { createContext, useContext, useState } from "react"
 type AnalysisData = {
   documentName: string
   summary: string
+  summaryHindi?: string
   importantDates: any[]
   requiredDocuments: any[]
   eligibility: any[]

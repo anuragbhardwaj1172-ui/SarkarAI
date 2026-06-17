@@ -1,5 +1,7 @@
 "use client"
 import { useAnalysis } from "@/lib/analysis-context"
+import { useLanguage } from "@/lib/language-context"
+import { translations } from "@/lib/translations"
 import { ShieldCheck, Check, X } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
@@ -14,7 +16,9 @@ const criteria = [
 
 export function Eligibility() {
   const { analysis } = useAnalysis()
-  
+  const { language } = useLanguage()
+  const t = translations[language]
+
   const currentCriteria = analysis?.eligibility ?? []
   console.log(
     "ELIGIBILITY DATA:",
@@ -37,7 +41,9 @@ export function Eligibility() {
         <div className="flex size-9 items-center justify-center rounded-xl bg-accent text-primary">
           <ShieldCheck className="size-4.5" aria-hidden="true" />
         </div>
-        <h2 className="font-heading text-lg font-semibold tracking-tight">Eligibility</h2>
+        <h2 className="font-heading text-lg font-semibold tracking-tight">
+        {t.eligibility}
+        </h2>
       </div>
 
       <div className="mb-5 rounded-2xl border border-glass-border p-4">

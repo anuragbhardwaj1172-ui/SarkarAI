@@ -3,6 +3,7 @@
 import { Bell, Search, FileScan } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { LanguageToggle } from "@/components/language-toggle"
 
 export function TopBar() {
   return (
@@ -31,6 +32,7 @@ export function TopBar() {
           />
         </div>
         <ThemeToggle />
+        <LanguageToggle />
         <button
           className="glass relative flex size-10 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:text-foreground"
           aria-label="Notifications"
