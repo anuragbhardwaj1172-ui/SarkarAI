@@ -5,9 +5,11 @@ import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import { useLanguage } from "@/lib/language-context"
 
 export function SchemeRecommendations() {
   const { analysis, documentText } = useAnalysis()
+  const { language } = useLanguage()
   const [profile, setProfile] = useState("")
   const [result, setResult] = useState("")
   const [loading, setLoading] = useState(false)
@@ -25,6 +27,7 @@ export function SchemeRecommendations() {
           },
           body: JSON.stringify({
             profile,
+            language,
             analysis,
             documentText,
           }),

@@ -11,10 +11,22 @@ export async function POST(request: Request) {
       profile,
       analysis,
       documentText,
+      language,
     } = await request.json()
+    console.log("PROFILE:", profile)
+console.log("LANGUAGE:", language)
+console.log("HAS ANALYSIS:", !!analysis)
+console.log("DOCUMENT LENGTH:", documentText?.length)
 
     const prompt = `
 You are an expert in Indian government schemes.
+
+Selected Language:
+${language}
+
+If language is "hi", answer completely in Hindi.
+
+If language is "en", answer completely in English.
 
 User Profile:
 ${JSON.stringify(profile, null, 2)}
@@ -44,14 +56,14 @@ If no scheme is relevant, say:
     return NextResponse.json({
       answer: response.text,
     })
-  } catch (error) {
-    console.error(error)
+  } catch (error: any) {
+  console.error("RECOMMEND ERROR:", error)
 
-    return NextResponse.json(
-      {
-        answer: "Failed to generate recommendations",
-      },
-      { status: 500 }
-    )
-  }
+  return NextResponse.json(
+    {
+      answer: `Error: ${error?.message || "Unknown error"}`,
+    },
+    { status: 500 }
+  )
+}
 }
