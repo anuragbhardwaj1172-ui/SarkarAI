@@ -1,11 +1,13 @@
 "use client"
 
+import { useAnalysis } from "@/lib/analysis-context"
 import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 
 export function SchemeRecommendations() {
+  const { analysis, documentText } = useAnalysis()
   const [profile, setProfile] = useState("")
   const [result, setResult] = useState("")
   const [loading, setLoading] = useState(false)
@@ -23,6 +25,8 @@ export function SchemeRecommendations() {
           },
           body: JSON.stringify({
             profile,
+            analysis,
+            documentText,
           }),
         }
       )
