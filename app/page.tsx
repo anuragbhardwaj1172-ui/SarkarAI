@@ -1,3 +1,9 @@
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import { Sidebar } from "@/components/dashboard/sidebar"
 import { TopBar } from "@/components/dashboard/top-bar"
 import { UploadSection } from "@/components/dashboard/upload-section"
@@ -9,6 +15,17 @@ import { AskQuestions } from "@/components/dashboard/ask-questions"
 import { SchemeRecommendations } from "@/components/dashboard/scheme-recommendations"
 
 export default function Page() {
+  const router = useRouter();
+
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      router.push("/login");
+    }
+  });
+
+  return () => unsubscribe();
+}, [router]);
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1500px] gap-4 p-4">
       <Sidebar />
